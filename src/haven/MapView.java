@@ -31,6 +31,7 @@ import static haven.MCache.tilesz;
 import haven.Resource.Tile;
 import haven.GLProgram.VarID;
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import java.util.*;
 import java.lang.reflect.*;
 import javax.media.opengl.*;
@@ -1259,6 +1260,12 @@ public class MapView extends PView implements DTarget, Console.Directory {
     }
 
     public boolean globtype(char c, java.awt.event.KeyEvent ev) {
+	int code = ev.getKeyCode();
+	if(code == KeyEvent.VK_ADD) {
+	    return camera.wheel(Coord.z, 1);
+	} else if(code == KeyEvent.VK_SUBTRACT){
+	    return camera.wheel(Coord.z, -1);
+	}
 	return(false);
     }
 
