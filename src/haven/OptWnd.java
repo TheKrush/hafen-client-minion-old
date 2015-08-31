@@ -266,6 +266,18 @@ public class OptWnd extends Window {
 	    }
 	}, new Coord(0, y));
 
+	y+=25;
+	display.add(new CheckBox("Show flavor objects") {
+	    {
+		a = Config.showflavor;
+	    }
+
+	    public void set(boolean val) {
+		a = Config.showflavor = val;
+		Utils.setprefb("showflavor", val);
+	    }
+	}, new Coord(0, y));
+
 	display.add(new PButton(200, "Back", 27, main), new Coord(0, 180));
 	display.pack();
 

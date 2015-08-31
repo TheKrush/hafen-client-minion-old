@@ -52,6 +52,7 @@ public class Config {
     public static String prefspec = "hafen";
 
     public static boolean showkinnames = Utils.getprefb("showkinnames", true);
+    public static boolean showflavor = Utils.getprefb("showflavor", true);
     
     static {
 	String p;
