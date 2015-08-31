@@ -26,8 +26,12 @@
 
 package haven;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.io.PrintStream;
+import java.util.Properties;
+
 import static haven.Utils.getprop;
 
 public class Config {
@@ -51,16 +55,36 @@ public class Config {
     public static byte[] authck = null;
     public static String prefspec = "hafen";
 
+    public static String version;
     public static boolean showkinnames = Utils.getprefb("showkinnames", true);
     public static boolean showflavor = Utils.getprefb("showflavor", true);
     public static boolean storemap = Utils.getprefb("storemap", true);
-    
+
     static {
 	String p;
 	if((p = getprop("haven.authck", null)) != null)
 	    authck = Utils.hex2byte(p);
+
+	loadBuildVersion();
     }
-    
+
+    private static void loadBuildVersion() {
+	InputStream in = Config.class.getResourceAsStream("/buildinfo");
+	try {
+	    try {
+		if(in != null) {
+		    Properties info = new Properties();
+		    info.load(in);
+		    version = info.getProperty("version");
+		}
+	    } finally {
+		if (in != null) { in.close(); }
+	    }
+	} catch(IOException e) {
+	    throw(new Error(e));
+	}
+    }
+
     private static int getint(String name, int def) {
 	String val = getprop(name, null);
 	if(val == null)

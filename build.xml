@@ -9,12 +9,16 @@
     <available property="unpacked-lib" file="build/classes-lib" />
   </target>
   
-  <target name="buildinfo" depends="build-env" unless="has-buildinfo">
+  <target name="buildinfo" depends="build-env">
     <exec executable="git" outputproperty="gitrev" failifexecutionfails="false">
       <arg line="rev-parse HEAD" />
     </exec>
-    <echo file="build/classes/buildinfo" xml:space="default">
+    <tstamp>
+      <format property="version" pattern="dd.MM.yyyy HH:mm" />
+    </tstamp>
+    <echo file="build/classes/buildinfo">
       git-rev = ${gitrev}
+      version = ${version}
     </echo>
   </target>
 
