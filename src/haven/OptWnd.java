@@ -198,7 +198,7 @@ public class OptWnd extends Window {
 
 	main.add(new PButton(200, "Video settings", 'v', video), new Coord(0, 0));
 	main.add(new PButton(200, "Audio settings", 'a', audio), new Coord(0, 30));
-	main.add(new PButton(200, "Display settings", 'd', display), new Coord(0, 60));
+	main.add(new PButton(200, "General settings", 'g', display), new Coord(0, 60));
 	if(gopts) {
 	    main.add(new Button(200, "Switch character") {
 		    public void click() {
@@ -258,7 +258,9 @@ public class OptWnd extends Window {
 	y = 0;
 
 	display.add(new CheckBox("Always show kin names") {
-	    {a = Config.showkinnames;}
+	    {
+		a = Config.showkinnames;
+	    }
 
 	    public void set(boolean val) {
 		a = Config.showkinnames = val;
@@ -275,6 +277,18 @@ public class OptWnd extends Window {
 	    public void set(boolean val) {
 		a = Config.showflavor = val;
 		Utils.setprefb("showflavor", val);
+	    }
+	}, new Coord(0, y));
+
+	y+=25;
+	display.add(new CheckBox("Store minimap tiles") {
+	    {
+		a = Config.storemap;
+	    }
+
+	    public void set(boolean val) {
+		a = Config.storemap = val;
+		Utils.setprefb("storemap", val);
 	    }
 	}, new Coord(0, y));
 

@@ -53,6 +53,7 @@ public class Config {
 
     public static boolean showkinnames = Utils.getprefb("showkinnames", true);
     public static boolean showflavor = Utils.getprefb("showflavor", true);
+    public static boolean storemap = Utils.getprefb("storemap", true);
     
     static {
 	String p;
