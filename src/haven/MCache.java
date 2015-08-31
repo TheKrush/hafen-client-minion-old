@@ -452,6 +452,7 @@ public class MCache {
 		    g.fill(msg);
 		    req.remove(c);
 		    olseq++;
+		    MapDumper.dump(this, g);
 		}
 	    }
 	}
