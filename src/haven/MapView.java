@@ -417,14 +417,16 @@ public class MapView extends PView implements DTarget, Console.Directory {
 			Coord pc = cc.add(o).mul(MCache.cutsz).mul(tilesz);
 			MapMesh cut = glob.map.getcut(cc.add(o));
 			rl.add(cut, Location.xlate(new Coord3f(pc.x, -pc.y, 0)));
-			Collection<Gob> fol;
-			try {
-			    fol = glob.map.getfo(cc.add(o));
-			} catch(Loading e) {
-			    fol = Collections.emptyList();
+			if(Config.showflavor) {
+			    Collection<Gob> fol;
+			    try {
+				fol = glob.map.getfo(cc.add(o));
+			    } catch(Loading e) {
+				fol = Collections.emptyList();
+			    }
+			    for(Gob fo : fol)
+				addgob(rl, fo);
 			}
-			for(Gob fo : fol)
-			    addgob(rl, fo);
 		    }
 		}
 		return(false);
