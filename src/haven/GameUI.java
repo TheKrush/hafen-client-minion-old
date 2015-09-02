@@ -50,6 +50,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
     public Inventory maininv;
     public CharWnd chrwdg;
     public BuddyWnd buddies;
+    public EquipProxy eqproxy;
     private final Zergwnd zerg;
     public Polity polity;
     public HelpWnd help;
@@ -111,6 +112,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 	    chat.resize(0, chat.savedh);
 	    chat.show();
 	}
+	eqproxy = add(new EquipProxy(new int[]{6, 7}), new Coord(3, 85));
 	beltwdg.raise();
 	ulpanel = add(new Hidepanel("gui-ul", null, new Coord(-1, -1)));
 	urpanel = add(new Hidepanel("gui-ur", null, new Coord( 1, -1)));
@@ -165,6 +167,22 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 			map.disol(2, 3);
 		}
 	    }, 0, 0);
+    }
+
+    @Override
+    protected void attach(UI ui) {
+	super.attach(ui);
+	ui.gui = this;
+    }
+
+    public Equipory getEquipory(){
+	if(equwnd != null){
+	    Iterator<Equipory> iterator = equwnd.children(Equipory.class).iterator();
+	    if(iterator.hasNext()) {
+		return iterator.next();
+	    }
+	}
+	return null;
     }
 
     /* Ice cream */
