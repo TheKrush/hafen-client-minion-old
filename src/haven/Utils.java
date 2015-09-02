@@ -31,6 +31,7 @@ import java.io.*;
 import java.nio.*;
 import java.net.URL;
 import java.lang.reflect.*;
+import java.text.SimpleDateFormat;
 import java.util.prefs.*;
 import java.util.*;
 import java.awt.Graphics;
@@ -1152,6 +1153,14 @@ public class Utils {
 	} catch(java.net.MalformedURLException e) {
 	    throw(new RuntimeException(e));
 	}
+    }
+
+    public static String timestamp() {
+	return new SimpleDateFormat("HH:mm").format(new Date());
+    }
+
+    public static String timestamp(String text) {
+	return String.format("[%s] %s", timestamp(), text);
     }
 
     static {
