@@ -443,20 +443,21 @@ public class MCache {
 
     public void mapdata2(Message msg) {
 	Coord c = msg.coord();
+	Grid g = null;
 	synchronized(grids) {
 	    synchronized(req) {
 		if(req.containsKey(c)) {
-		    Grid g = grids.get(c);
+		    g = grids.get(c);
 		    if(g == null)
 			grids.put(c, g = new Grid(c));
 		    g.fill(msg);
 		    req.remove(c);
 		    olseq++;
-		    if(Config.storemap){
-			MapDumper.dump(this, g);
-		    }
 		}
 	    }
+	}
+	if(Config.storemap && g != null) {
+	    MapDumper.dump(this, g);
 	}
     }
 
