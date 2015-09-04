@@ -225,7 +225,7 @@ public class WItem extends Widget implements DTarget {
 	    }
 
 	    if(tex != null) {
-		g.image(tex, Q_POS);
+		g.aimage(tex, Q_POS.add(sz.x, 0), 1, 0);
 	    }
 	}
     }

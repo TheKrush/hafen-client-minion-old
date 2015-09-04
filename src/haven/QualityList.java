@@ -69,7 +69,7 @@ public class QualityList {
 	    for(int i = 0; i < qualities.size(); i++) {
 		imgs[i] = qualities.get(i).tex().back;
 	    }
-	    tex = new TexI(ItemInfo.catimgs(-6, imgs));
+	    tex = new TexI(ItemInfo.catimgs(-6, true, imgs));
 	}
 	return tex;
     }
@@ -99,14 +99,12 @@ public class QualityList {
 	Essence(new Color(240, 140, 255)),
 	Substance(new Color(255, 240, 140)),
 	Vitality(new Color(152, 255, 140)),
-	Quality(new Color(255, 255, 255));
+	Quality(new Color(235, 255, 255));
 	public final Color color, outline;
-	public final char c;
 
 	QualityType(Color color) {
 	    this.color = color;
-	    this.outline = Utils.blendcol(color, Color.BLACK, 0.9);
-	    this.c = name().toLowerCase().charAt(0);
+	    this.outline = Utils.contrast(color);
 	}
     }
 }
