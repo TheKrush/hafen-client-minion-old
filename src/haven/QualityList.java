@@ -4,6 +4,9 @@ import me.ender.Reflect;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.text.DecimalFormat;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,11 +15,12 @@ public class QualityList {
 
     private final List<Quality> qualities;
     private Tex tex;
-    public final Quality max;
+    private final Quality max, average;
+    private final boolean isEmpty;
 
     public QualityList(List<ItemInfo> list) {
 	qualities = new LinkedList<Quality>();
-	for (ItemInfo inf : list) {
+	for(ItemInfo inf : list) {
 	    if(inf.getClass().getName().equals(classname)) {
 		String name = Reflect.getFieldValueString(inf, "name");
 		int q = Reflect.getFieldValueInt(inf, "q");
@@ -25,24 +29,44 @@ public class QualityList {
 		} catch (IllegalArgumentException ignored){}
 	    }
 	}
-	if(qualities.size() > 0) {
+	Collections.sort(qualities, new Comparator<Quality>() {
+	    @Override
+	    public int compare(Quality o1, Quality o2) {
+		return o1.type.name().compareTo(o2.type.name());
+	    }
+	});
+	int size = qualities.size();
+	isEmpty = size == 0;
+	if(!isEmpty) {
 	    boolean equal = true;
 	    Quality cmax = qualities.get(0);
-	    for (int i = 1; i < qualities.size(); i++) {
+	    float sum = cmax.value;
+	    for(int i = 1; i < size; i++) {
 		Quality current = qualities.get(i);
 		equal = equal && (current.value == cmax.value);
 		cmax = (cmax.value >= current.value) ? cmax : current;
+		sum += current.value;
 	    }
 	    max = equal ? new Quality(QualityType.Quality, cmax.value) : cmax;
+	    average = new Quality(QualityType.Quality, sum / size);
 	} else {
 	    max = null;
+	    average = null;
 	}
+    }
+
+    public boolean isEmpty(){
+	return isEmpty;
+    }
+
+    public Quality single(){
+	return average;
     }
 
     public Tex tex() {
 	if(tex == null) {
 	    BufferedImage[] imgs = new BufferedImage[qualities.size()];
-	    for (int i = 0; i < qualities.size(); i++) {
+	    for(int i = 0; i < qualities.size(); i++) {
 		imgs[i] = qualities.get(i).tex().back;
 	    }
 	    tex = new TexI(ItemInfo.catimgs(-6, imgs));
@@ -51,31 +75,31 @@ public class QualityList {
     }
 
     public static class Quality {
+	public static final DecimalFormat format = new DecimalFormat("#.#");
 	private final QualityType type;
-	public final int value;
+	public final float value;
 	private TexI tex;
 
-	public Quality(QualityType type, int value) {
+	public Quality(QualityType type, float value) {
 	    this.type = type;
 	    this.value = value;
 	}
 
 	public TexI tex() {
 	    if(tex == null) {
-		String text = String.format("%d%s", value, type.c);
+		String text = String.format("%s", format.format(value));
 		BufferedImage img = Text.render(text, type.color).img;
 		tex = new TexI(Utils.outline2(img, type.outline, true));
-		//tex = Utils.renderOutlinedFont(Text.std, text, type.color, type.outline, 1);
 	    }
 	    return tex;
 	}
     }
 
     enum QualityType {
-	Essence(new Color(243, 153, 255)),
-	Substance(new Color(255, 243, 153)),
-	Vitality(new Color(162, 255, 153)),
-	Quality(new Color(214, 255, 255));
+	Essence(new Color(240, 140, 255)),
+	Substance(new Color(255, 240, 140)),
+	Vitality(new Color(152, 255, 140)),
+	Quality(new Color(255, 255, 255));
 	public final Color color, outline;
 	public final char c;
 

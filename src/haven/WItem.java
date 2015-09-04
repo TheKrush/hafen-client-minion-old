@@ -166,7 +166,7 @@ public class WItem extends Widget implements DTarget {
 	@Override
 	protected QualityList find(List<ItemInfo> info) {
 	    QualityList qualityList = new QualityList(ItemInfo.findall(QualityList.classname, info));
-	    return qualityList.max != null ? qualityList : null;
+	    return !qualityList.isEmpty() ? qualityList : null;
 	}
     };
 
@@ -220,8 +220,8 @@ public class WItem extends Widget implements DTarget {
 	    Tex tex = null;
 	    if(ui.modflags() != 0) {
 		tex = quality.tex();
-	    } else if(quality.max != null) {
-		tex = quality.max.tex();
+	    } else if(!quality.isEmpty()) {
+		tex = quality.single().tex();
 	    }
 
 	    if(tex != null) {
