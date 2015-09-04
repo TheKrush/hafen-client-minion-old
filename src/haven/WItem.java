@@ -220,7 +220,7 @@ public class WItem extends Widget implements DTarget {
 	    Tex tex = null;
 	    if(ui.modflags() != 0) {
 		tex = quality.tex();
-	    } else if(!quality.isEmpty()) {
+	    } else if(!quality.isEmpty() && CFG.Q_SHOW_SINGLE.valb()) {
 		tex = quality.single().tex();
 	    }
 
