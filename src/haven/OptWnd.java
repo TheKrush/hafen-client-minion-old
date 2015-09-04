@@ -314,4 +314,29 @@ public class OptWnd extends Window {
 	chpanel(main);
 	super.show();
     }
+
+    private static class CFGBox extends CheckBox {
+
+	private final CFG cfg;
+
+	public CFGBox(String lbl, CFG cfg) {
+	    this(lbl, cfg, null);
+	}
+
+	public CFGBox(String lbl, CFG cfg, String tip) {
+	    super(lbl);
+
+	    this.cfg = cfg;
+	    a = cfg.valb();
+	    if(tip != null) {
+		tooltip = Text.render(tip).tex();
+	    }
+	}
+
+	@Override
+	public void set(boolean a) {
+	    this.a = a;
+	    cfg.set(a);
+	}
+    }
 }
