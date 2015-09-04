@@ -60,7 +60,7 @@ public class QualityList {
     }
 
     public Quality single(){
-	return average;
+	return CFG.Q_MAX_SINGLE.valb() ? max : average;
     }
 
     public Tex tex() {
