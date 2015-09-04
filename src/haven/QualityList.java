@@ -48,7 +48,7 @@ public class QualityList {
 		sum += current.value;
 	    }
 	    max = equal ? new Quality(QualityType.Quality, cmax.value) : cmax;
-	    average = new Quality(QualityType.Quality, sum / size);
+	    average = new Quality(max.type, sum / size);
 	} else {
 	    max = null;
 	    average = null;
