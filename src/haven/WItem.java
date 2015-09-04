@@ -27,14 +27,14 @@
 package haven;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.*;
-import static haven.ItemInfo.find;
+
 import static haven.Inventory.sqsz;
 
 public class WItem extends Widget implements DTarget {
     public static final Resource missing = Resource.local().loadwait("gfx/invobjs/missing");
+    public static final Coord Q_POS = new Coord(0, -3);
     public final GItem item;
     private Resource cspr = null;
     private Message csdt = Message.nil;
@@ -162,6 +162,14 @@ public class WItem extends Widget implements DTarget {
 	}
     };
 
+    public final AttrCache<QualityList> itemq = new AttrCache<QualityList>() {
+	@Override
+	protected QualityList find(List<ItemInfo> info) {
+	    QualityList qualityList = new QualityList(ItemInfo.findall(QualityList.classname, info));
+	    return qualityList.max != null ? qualityList : null;
+	}
+    };
+
     private GSprite lspr = null;
     public void tick(double dt) {
 	/* XXX: This is ugly and there should be a better way to
@@ -200,8 +208,25 @@ public class WItem extends Widget implements DTarget {
 		g.prect(half, half.inv(), half, a * Math.PI * 2);
 		g.chcolor();
 	    }
+	    drawq(g);
 	} else {
 	    g.image(missing.layer(Resource.imgc).tex(), Coord.z, sz);
+	}
+    }
+
+    private void drawq(GOut g) {
+	QualityList quality = itemq.get();
+	if(quality != null) {
+	    Tex tex = null;
+	    if(ui.modflags() != 0) {
+		tex = quality.tex();
+	    } else if(quality.max != null) {
+		tex = quality.max.tex();
+	    }
+
+	    if(tex != null) {
+		g.image(tex, Q_POS);
+	    }
 	}
     }
     

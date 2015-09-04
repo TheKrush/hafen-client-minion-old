@@ -254,6 +254,16 @@ public abstract class ItemInfo {
 	return(null);
     }
 
+    public static List<ItemInfo> findall(String cl, List<ItemInfo> il){
+	List<ItemInfo> ret = new LinkedList<ItemInfo>();
+	for(ItemInfo inf : il) {
+	    String name = inf.getClass().getName();
+	    if(cl.equals(name))
+		ret.add(inf);
+	}
+	return ret;
+    }
+
     public static List<ItemInfo> buildinfo(Owner owner, Object[] rawinfo) {
 	List<ItemInfo> ret = new ArrayList<ItemInfo>();
 	for(Object o : rawinfo) {
