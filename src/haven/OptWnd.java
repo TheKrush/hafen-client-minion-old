@@ -292,6 +292,14 @@ public class OptWnd extends Window {
 	    }
 	}, new Coord(0, y));
 
+	y += 25;
+	display.add(new CFGBox("Show single quality", CFG.Q_SHOW_SINGLE), new Coord(0, y));
+
+	y += 25;
+	display.add(new CFGBox("Show single quality as max", CFG.Q_MAX_SINGLE
+		, "If checked will show single value quality as maximum of all qualities, instead of average")
+		, new Coord(0, y));
+
 	display.add(new PButton(200, "Back", 27, main), new Coord(0, 180));
 	display.pack();
 
