@@ -1178,6 +1178,11 @@ public class Utils {
 	return String.format("[%s] %s", timestamp(), text);
     }
 
+    public static String stream2str(InputStream is) {
+	Scanner s = new Scanner(is).useDelimiter("\\A");
+	return s.hasNext() ? s.next() : "";
+    }
+
     static {
 	Console.setscmd("die", new Console.Command() {
 		public void run(Console cons, String[] args) {
