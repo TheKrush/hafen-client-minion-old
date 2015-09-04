@@ -26,6 +26,7 @@
 
 package haven;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -84,6 +85,10 @@ public class Config {
 	} catch(IOException e) {
 	    throw(new Error(e));
 	}
+    }
+
+    public static File getFile(String name) {
+	return new File(name);
     }
 
     private static int getint(String name, int def) {
