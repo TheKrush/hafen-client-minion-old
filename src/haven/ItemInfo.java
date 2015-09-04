@@ -176,6 +176,10 @@ public abstract class ItemInfo {
     }
 
     public static BufferedImage catimgs(int margin, BufferedImage... imgs) {
+	return catimgs(margin, false, imgs);
+    }
+
+    public static BufferedImage catimgs(int margin, boolean right, BufferedImage... imgs) {
 	int w = 0, h = -margin;
 	for(BufferedImage img : imgs) {
 	    if(img == null)
@@ -190,7 +194,7 @@ public abstract class ItemInfo {
 	for(BufferedImage img : imgs) {
 	    if(img == null)
 		continue;
-	    g.drawImage(img, 0, y, null);
+	    g.drawImage(img, right ? w - img.getWidth() : 0, y, null);
 	    y += img.getHeight() + margin;
 	}
 	g.dispose();
