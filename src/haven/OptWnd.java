@@ -256,41 +256,13 @@ public class OptWnd extends Window {
 
 	//display settings
 	y = 0;
-
-	display.add(new CheckBox("Always show kin names") {
-	    {
-		a = Config.showkinnames;
-	    }
-
-	    public void set(boolean val) {
-		a = Config.showkinnames = val;
-		Utils.setprefb("showkinnames", val);
-	    }
-	}, new Coord(0, y));
+	display.add(new CFGBox("Always show kin names", CFG.DISPLAY_KINNAMES), new Coord(0, y));
 
 	y+=25;
-	display.add(new CheckBox("Show flavor objects") {
-	    {
-		a = Config.showflavor;
-	    }
-
-	    public void set(boolean val) {
-		a = Config.showflavor = val;
-		Utils.setprefb("showflavor", val);
-	    }
-	}, new Coord(0, y));
+	display.add(new CFGBox("Show flavor objects", CFG.DISPLAY_FLAVOR), new Coord(0, y));
 
 	y+=25;
-	display.add(new CheckBox("Store minimap tiles") {
-	    {
-		a = Config.storemap;
-	    }
-
-	    public void set(boolean val) {
-		a = Config.storemap = val;
-		Utils.setprefb("storemap", val);
-	    }
-	}, new Coord(0, y));
+	display.add(new CFGBox("Store minimap tiles", CFG.STORE_MAP), new Coord(0, y));
 
 	y += 25;
 	display.add(new CFGBox("Show single quality", CFG.Q_SHOW_SINGLE), new Coord(0, y));

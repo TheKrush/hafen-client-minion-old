@@ -456,7 +456,7 @@ public class MCache {
 		}
 	    }
 	}
-	if(Config.storemap && g != null) {
+	if(CFG.STORE_MAP.valb() && g != null) {
 	    MapDumper.dump(this, g);
 	}
     }
