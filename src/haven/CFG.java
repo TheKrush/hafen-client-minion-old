@@ -9,17 +9,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum CFG {
-    DISPLAY_DAYNIGHTCYCLE("display.daynightcycle", Utils.getprefb("daynightcycle", true)),
+    CAMERA_BRIGHT("camera.bright", 0f),
+		
     DISPLAY_KINNAMES("display.kinnames", Utils.getprefb("showkinnames", true)),
     DISPLAY_FLAVOR("display.flavor", Utils.getprefb("showflavor", false)),
+		
     FREE_CAMERA_ROTATION("general.freecamera", Utils.getprefb("freecamera", true)),
-    UI_MINIMAP_PLAYERS("ui.minimap.players", Utils.getprefb("showplayers", true)),
-		UI_MINIMAP_BOULDERS("ui.minimap.boulders", Utils.getprefb("showboulders", true)),
     STORE_MAP("general.storemap", Utils.getprefb("storemap", false)),
 		
 		STUDY_LOCK("ui.studylock", Utils.getprefb("studylock", false)),
 
     SHOW_CHAT_TIMESTAMP("ui.chat.timestamp", true),
+		
+    UI_MINIMAP_PLAYERS("ui.minimap.players", Utils.getprefb("showplayers", true)),
+		UI_MINIMAP_BOULDERS("ui.minimap.boulders", Utils.getprefb("showboulders", true)),
+
     Q_SHOW_ALL_MODS("ui.q.allmods", 7),
     Q_SHOW_SINGLE("ui.q.showsingle", true),
     Q_MAX_SINGLE("ui.q.maxsingle", false);
@@ -61,6 +65,10 @@ public enum CFG {
 	return CFG.geti(this);
     }
 
+    public float valf() {
+	return CFG.getf(this);
+    }
+
     public void set(Object value){
 	CFG.set(this, value);
     }
@@ -81,6 +89,10 @@ public enum CFG {
 
     public static int geti(CFG name) {
 	return  ((Number)get(name)).intValue();
+    }
+
+    public static float getf(CFG name) {
+	return  ((Number)get(name)).floatValue();
     }
 
     @SuppressWarnings("unchecked")
