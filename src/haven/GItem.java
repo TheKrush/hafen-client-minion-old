@@ -40,6 +40,69 @@ public class GItem extends AWidget implements ItemInfo.SpriteOwner, GSprite.Owne
 	private Object[] rawinfo;
 	private List<ItemInfo> info = Collections.emptyList();
 
+	// meter time estimation
+	public class MeterTime {
+
+		private int current = -1;
+		private int previous = -1;
+
+		private Date lastChange = null;
+
+		private final List<Double> meterPerSecList = new ArrayList<Double>();
+		private Integer count = -1;
+
+		private double calculateAverage() {
+			return calculateAverage(meterPerSecList);
+		}
+
+		private double calculateAverage(List<Double> values) {
+			Double sum = 0.0;
+			if (!values.isEmpty()) {
+				for (Double value : values) {
+					sum += value;
+				}
+				return sum / values.size();
+			}
+			return sum;
+		}
+
+		public void update(int meter, GameUI gui) {
+			Date meterPrevUpdate = lastChange;
+
+			previous = current;
+			current = meter;
+
+			if (previous != meter) {
+				if (current == 0) {
+					count = -1;
+					meterPrevUpdate = null;
+					meterPerSecList.clear();
+				} else {
+					lastChange = new Date();
+				}
+				if (meterPrevUpdate != null) {
+					if (count++ <= 0) {
+					} else {
+						int a = current - previous;
+
+						long secondsSinceUpdate = (lastChange.getTime() - meterPrevUpdate.getTime()) / 1000;
+						double meterPerSec = a * secondsSinceUpdate;
+
+						meterPerSecList.add(meterPerSec);
+						double averageSeconds = calculateAverage();
+
+						long totalSecs = (long) ((double) (100 - meter) * averageSeconds);
+						long hours = totalSecs / 3600;
+						long minutes = (totalSecs % 3600) / 60;
+						long seconds = totalSecs % 60;
+						gui.syslog.append(String.format("[%s] avgSecs: %.2f | time remaining: %dh, %dm, %ds", resname(), averageSeconds, hours, minutes, seconds), Color.GRAY);
+					}
+				}
+			}
+		}
+	}
+	private final MeterTime meterTime = new MeterTime();
+
 	@RName("item")
 	public static class $_ implements Factory {
 
@@ -158,6 +221,7 @@ public class GItem extends AWidget implements ItemInfo.SpriteOwner, GSprite.Owne
 			rawinfo = args;
 		} else if (name == "meter") {
 			meter = (Integer) args[0];
+			meterTime.update(meter, ui.gui);
 		}
 	}
 }
