@@ -15,15 +15,15 @@ Download [url=http://thekrush.github.io/hafen-client-minion/files/hafen-minion.j
 	[*]Changed title font to more readable one ([url=http://www.havenandhearth.com/forum/viewtopic.php?f=49&amp;t=40754]Ender's client[/url])
 	[*]Mass transfer for inventories ([url=http://www.havenandhearth.com/forum/viewtopic.php?f=49&amp;t=40754]Ender's client[/url])
 		[list]
-			[*]SHIFT+LEFT CLICK (transfer 1 item)
-			[*]SHIFT+RIGHT CLICK (transfer all items)
+			[*]ALT+LEFT CLICK (transfer 1 item)
+			[*]ALT+RIGHT CLICK (transfer all items)
 			[*]CTRL+LEFT CLICK (drop 1 item)
 			[*]CTRL+RIGHT CLICK (drop all items)
 		[/list]
 	[*]Mass transfer for stockpiles when clicking stockpile ui ([url=http://www.havenandhearth.com/forum/viewtopic.php?f=49&amp;t=40754]Ender's client[/url])
 		[list]
-			[*]SHIFT+LEFT CLICK (put 1 item into stockpile)
-			[*]SHIFT+RIGHT CLICK (put as many items into stockpile as it can hold)
+			[*]ALT+LEFT CLICK (put 1 item into stockpile)
+			[*]ALT+RIGHT CLICK (put as many items into stockpile as it can hold)
 			[*]CTRL+LEFT CLICK (take 1 item from stockpile)
 			[*]CTRL+RIGHT CLICK (take as many items from stockpile as inventory can hold)
 		[/list]
