@@ -176,6 +176,12 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 	ui.gui = this;
     }
 
+    @Override
+    public void destroy() {
+	super.destroy();
+	ui.gui = null;
+    }
+
     public Equipory getEquipory(){
 	if(equwnd != null){
 	    Iterator<Equipory> iterator = equwnd.children(Equipory.class).iterator();
@@ -946,7 +952,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 	}
 
 	public boolean globtype(char key, KeyEvent ev) {
-	    if(key != 0)
+	    if(key != 0 || ui.modctrl)
 		return(false);
 	    boolean M = (ev.getModifiersEx() & (KeyEvent.META_DOWN_MASK | KeyEvent.ALT_DOWN_MASK)) != 0;
 	    for(int i = 0; i < beltkeys.length; i++) {
@@ -1067,7 +1073,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 	}
 
 	public boolean globtype(char key, KeyEvent ev) {
-	    if(key != 0)
+	    if(key != 0 || ui.modctrl)
 		return(false);
 	    int c = ev.getKeyChar();
 	    if((c < KeyEvent.VK_0) || (c > KeyEvent.VK_9))

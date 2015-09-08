@@ -161,8 +161,7 @@ public class TextEntry extends SIWidget {
     }
 
     public boolean keydown(KeyEvent e) {
-	buf.key(e);
-	return(true);
+	return(buf.key(e));
     }
 
     public boolean mousedown(Coord c, int button) {
