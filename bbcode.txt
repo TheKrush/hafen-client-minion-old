@@ -15,6 +15,7 @@ Download [url=http://thekrush.github.io/hafen-client-minion/files/hafen-minion.j
 	[*]Changed title font to more readable one ([url=http://www.havenandhearth.com/forum/viewtopic.php?f=49&amp;t=40754]Ender's client[/url])
 	[*]Mass transfer for inventories ([url=http://www.havenandhearth.com/forum/viewtopic.php?f=49&amp;t=40754]Ender's client[/url])
 		[list]
+			[*][i]keys are changable in the Options->Hotkeys menu[/i]
 			[*]ALT+LEFT CLICK (transfer 1 item)
 			[*]ALT+RIGHT CLICK (transfer all items)
 			[*]CTRL+LEFT CLICK (drop 1 item)
@@ -22,6 +23,7 @@ Download [url=http://thekrush.github.io/hafen-client-minion/files/hafen-minion.j
 		[/list]
 	[*]Mass transfer for stockpiles when clicking stockpile ui ([url=http://www.havenandhearth.com/forum/viewtopic.php?f=49&amp;t=40754]Ender's client[/url])
 		[list]
+			[*][i]keys are changable in the Options->Hotkeys menu[/i]
 			[*]ALT+LEFT CLICK (put 1 item into stockpile)
 			[*]ALT+RIGHT CLICK (put as many items into stockpile as it can hold)
 			[*]CTRL+LEFT CLICK (take 1 item from stockpile)
@@ -63,7 +65,7 @@ Download [url=http://thekrush.github.io/hafen-client-minion/files/hafen-minion.j
 [/list]
 [b]Notable Bug Fixes:[/b] - [url=https://github.com/TheKrush/hafen-client-minion/issues?q=is%3Aopen+is%3Aissue+label%3Abug]view current bugs[/url]
 [list]
-	[*]Various client crashes (borrowed from the other clients already listed)
+	[*]Various client crashes
 	[*]Ambient volume slider now correctly set ([url=http://www.havenandhearth.com/forum/viewtopic.php?f=49&amp;t=40400]romovs' amber client[/url])
 	[*]Fixed a config loading issue that I was experiencing with Ender's client
 	[*]Updater checks filesizes in addition to last modified date
