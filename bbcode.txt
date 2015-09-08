@@ -54,6 +54,12 @@ Download [url=http://thekrush.github.io/hafen-client-minion/files/hafen-minion.j
 		[/list]
 	[*]Added percentages to Food Event Points tooltip on the Character sheet
 	[*]Option to change overlay for item timers to countdown instead of up
+	[*]Changed window start locations
+		[list]
+			[*]Equipment window starts in top right
+			[*]Character Sheet window starts in top center
+			[*]Crafting window starts in top center
+		[/list]
 [/list]
 [b]Notable Bug Fixes:[/b] - [url=https://github.com/TheKrush/hafen-client-minion/issues?q=is%3Aopen+is%3Aissue+label%3Abug]view current bugs[/url]
 [list]
