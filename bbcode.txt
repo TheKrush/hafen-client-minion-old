@@ -65,6 +65,8 @@ Download [url=http://thekrush.github.io/hafen-client-minion/files/hafen-minion.j
 			[*]Character Sheet window starts in top center
 			[*]Crafting window starts in top center
 		[/list]
+	[*]Option to use chat timestamps ([url=http://www.havenandhearth.com/forum/viewtopic.php?f=49&amp;t=40754]Ender's client[/url])
+	[*]Option to store chat logs ([url=http://www.havenandhearth.com/forum/viewtopic.php?f=49&amp;t=40754]Ender's client[/url])
 [/list]
 [b]Notable Bug Fixes:[/b] - [url=https://github.com/TheKrush/hafen-client-minion/issues?q=is%3Aopen+is%3Aissue+label%3Abug]view current bugs[/url]
 [list]

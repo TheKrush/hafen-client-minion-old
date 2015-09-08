@@ -1,8 +1,7 @@
-rmdir ".\build\" /S /Q
-rmdir ".\nbproject\" /S /Q
-
-xcopy ".\dist\hafen.jar" ".\files\hafen.jar" /R /Y
-xcopy ".\updater\dist\hafen-minion.jar" ".\files\hafen-minion.jar" /R /Y
-
-rmdir ".\dist\" /S /Q
-rmdir ".\updater\" /S /Q
+@echo off
+echo Copying Files ...
+xcopy ".\hafen\dist\hafen.jar" ".\files\hafen.jar" /R /Y
+xcopy ".\hafen-minion\dist\hafen-minion.jar" ".\files\hafen-minion.jar" /R /Y
+echo Removing Project Folders ...
+rmdir ".\hafen\" /S /Q
+rmdir ".\hafen-minion\" /S /Q
