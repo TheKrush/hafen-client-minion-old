@@ -296,6 +296,12 @@ public class OptWnd extends Window {
 	y += 25;
 	display.add(new CFGBox("Show flavor objects", CFG.DISPLAY_FLAVOR), new Coord(x, y));
 
+	y += 25;
+	display.add(new CFGBox("Show timestamps in chat objects", CFG.SHOW_CHAT_TIMESTAMP), new Coord(x, y));
+
+	y += 25;
+	display.add(new CFGBox("Store chat logs", CFG.STORE_CHAT_LOGS, "Logs are stored in 'chats' folder"), new Coord(x, y));
+
 	x += 250;
 	y = 0;
 	my = Math.max(my, y);

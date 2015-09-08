@@ -13,6 +13,7 @@ public enum CFG {
     DISPLAY_FLAVOR("display.flavor", Utils.getprefb("showflavor", true)),
     STORE_MAP("general.storemap", Utils.getprefb("storemap", false)),
     SHOW_CHAT_TIMESTAMP("ui.chat.timestamp", true),
+    STORE_CHAT_LOGS("ui.chat.logs", false),
 
     CAMERA_BRIGHT("camera.bright", 0f),
 
