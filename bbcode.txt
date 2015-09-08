@@ -9,7 +9,10 @@ Download [url=http://thekrush.github.io/hafen-client-minion/files/hafen-minion.j
 
 [b]Changes:[/b] - [url=https://github.com/TheKrush/hafen-client-minion/issues?q=is%3Aopen+is%3Aissue+label%3Aenhancement]upcoming changes[/url]
 [list]
-	[*]Option to save minimap ([url=http://www.havenandhearth.com/forum/viewtopic.php?f=49&amp;t=40754]Ender's client[/url])
+	[*]Option to save minimap () ([url=http://www.havenandhearth.com/forum/viewtopic.php?f=49&amp;t=40945]BDew's client[/url])
+		[list]
+			[*]Updater also downloads [url=http://www.havenandhearth.com/forum/viewtopic.php?f=49&amp;t=40945]BDew's[/url] combiner
+		[/list]
 	[*]Option to always show kin names ([url=http://www.havenandhearth.com/forum/viewtopic.php?f=49&amp;t=40754]Ender's client[/url])
 	[*]Option to hide flavor objects ([url=http://www.havenandhearth.com/forum/viewtopic.php?f=49&amp;t=40754]Ender's client[/url])
 	[*]Changed title font to more readable one ([url=http://www.havenandhearth.com/forum/viewtopic.php?f=49&amp;t=40754]Ender's client[/url])
