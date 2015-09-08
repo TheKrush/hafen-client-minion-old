@@ -172,7 +172,11 @@ public class Resource implements Serializable {
 	    for(int i = 0; i < parts.length - 1; i++)
 		cur = new File(cur, parts[i]);
 	    cur = new File(cur, parts[parts.length - 1] + ".res");
-	    return(new FileInputStream(cur));
+	    if(cur.exists()) {
+		return new FileInputStream(cur);
+	    } else{
+		throw new FileNotFoundException(cur.toString());
+	    }
 	}
 	
 	public String toString() {
@@ -599,7 +603,8 @@ public class Resource implements Serializable {
 	if(_local == null) {
 	    synchronized(Resource.class) {
 		if(_local == null) {
-		    Pool local = new Pool(new JarSource());
+		    Pool local = new Pool(new FileSource(Config.getFile("res")));
+		    local.add(new JarSource());
 		    try {
 			String dir = Config.resdir;
 			if(dir == null)
