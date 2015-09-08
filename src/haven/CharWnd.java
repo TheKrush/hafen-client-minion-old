@@ -591,6 +591,13 @@ public class CharWnd extends Window {
 			updcost();
 		}
 
+		public void reset() {
+			tbv = attr.base;
+			tcv = attr.comp;
+			cbv = ccv = 0;
+			updcost();
+		}
+
 		public boolean mousewheel(Coord c, int a) {
 			adj(-a);
 			return (true);
@@ -895,9 +902,10 @@ public class CharWnd extends Window {
 		}
 	}
 
-	public static class SkillList extends Listbox<Skill> {
+	public class SkillList extends Listbox<Skill> {
 
 		public Skill[] skills = new Skill[0];
+		public boolean dav = false;
 		private boolean loading = false;
 		private final Comparator<Skill> skcomp = new Comparator<Skill>() {
 			public int compare(Skill a, Skill b) {
@@ -946,6 +954,9 @@ public class CharWnd extends Window {
 				g.image(sk.small, Coord.z);
 			} catch (Loading e) {
 				g.image(WItem.missing.layer(Resource.imgc).tex(), Coord.z, new Coord(itemh, itemh));
+			}
+			if (dav && (sk.cost > exp)) {
+				g.chcolor(255, 192, 192, 255);
 			}
 			g.aimage(sk.rnm.get().tex(), new Coord(itemh + 5, itemh / 2), 0, 0.5);
 		}
@@ -1274,6 +1285,13 @@ public class CharWnd extends Window {
 					CharWnd.this.wdgmsg("sattr", args.toArray(new Object[0]));
 				}
 			}, new Coord(rx - 75, y + 55));
+			sattr.add(new Button(75, "Reset") {
+				public void click() {
+					for (SAttr attr : skill) {
+						attr.reset();
+					}
+				}
+			}, new Coord(rx - 160, y + 55));
 		}
 
 		Tabs.Tab skills;
@@ -1311,6 +1329,7 @@ public class CharWnd extends Window {
 						}
 					}
 				}, wbox.btloff());
+				this.nsk.dav = true;
 				y = Frame.around(nsk, Collections.singletonList(this.nsk)).sz.y + 5;
 				int rx = attrw - 10;
 				Frame.around(nsk, Area.sized(new Coord(0, y).add(wbox.btloff()), new Coord(attrw, 69)));
