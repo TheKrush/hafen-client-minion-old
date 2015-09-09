@@ -67,6 +67,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
     public Belt beltwdg;
     public String polowner;
     public Bufflist buffs;
+    public CraftWnd craftwnd;
 
     public abstract class Belt extends Widget {
 	public Belt(Coord sz) {
@@ -172,8 +173,8 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 
     @Override
     protected void attach(UI ui) {
-	super.attach(ui);
 	ui.gui = this;
+	super.attach(ui);
     }
 
     @Override
@@ -299,6 +300,20 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 	    });
 	Debug.log = ui.cons.out;
 	opts.c = sz.sub(opts.sz).div(2);
+    }
+
+    public void showCraftWnd() {
+	if(craftwnd == null ){
+	    craftwnd = add(new CraftWnd());
+	}
+    }
+
+    public void toggleCraftWnd() {
+	if(craftwnd == null) {
+	    showCraftWnd();
+	} else {
+	    craftwnd.wdgmsg(craftwnd, "close");
+	}
     }
     
     public class Hidepanel extends Widget {
