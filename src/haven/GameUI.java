@@ -542,7 +542,10 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 	    chrwdg.hide();
 	} else if(place == "craft") {
 	    final Widget mkwdg = child;
-	    makewnd = new Window(Coord.z, "Crafting", true) {
+	    if(craftwnd != null){
+		craftwnd.setMakewindow(mkwdg);
+	    } else {
+		makewnd = new Window(Coord.z, "Crafting", true) {
 		    public void wdgmsg(Widget sender, String msg, Object... args) {
 			if((sender == this) && msg.equals("close")) {
 			    mkwdg.wdgmsg("close");
@@ -550,6 +553,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 			}
 			super.wdgmsg(sender, msg, args);
 		    }
+
 		    public void cdestroy(Widget w) {
 			if(w == mkwdg) {
 			    ui.destroy(this);
@@ -557,9 +561,10 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 			}
 		    }
 		};
-	    makewnd.add(mkwdg, Coord.z);
-	    makewnd.pack();
-	    add(makewnd, new Coord(400, 200));
+		makewnd.add(mkwdg, Coord.z);
+		makewnd.pack();
+		add(makewnd, new Coord(400, 200));
+	    }
 	} else if(place == "buddy") {
 	    zerg.ntab(buddies = (BuddyWnd)child, zerg.kin);
 	} else if(place == "pol") {
