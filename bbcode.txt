@@ -67,7 +67,10 @@ Download [url=http://thekrush.github.io/hafen-client-minion/files/hafen-minion.j
 		[/list]
 	[*]Option to use chat timestamps ([url=http://www.havenandhearth.com/forum/viewtopic.php?f=49&amp;t=40754]Ender's client[/url])
 	[*]Option to store chat logs ([url=http://www.havenandhearth.com/forum/viewtopic.php?f=49&amp;t=40754]Ender's client[/url])
-	[*]Added CTRL+1 & CTRL+2 as shortcuts for clicking on hand quick access ([url=http://www.havenandhearth.com/forum/viewtopic.php?f=49&amp;t=40754]Ender's client[/url])
+	[*]Added displaying of percentage to hourglass ([url=http://www.havenandhearth.com/forum/viewtopic.php?f=49&amp;t=40754]Ender's client[/url])
+	[*]Added CTRL+1 and CTRL+2 to simulate left clicks on quick access hand slots ([url=http://www.havenandhearth.com/forum/viewtopic.php?f=49&amp;t=40754]Ender's client[/url])
+	[*]Client now should show error window in case of crash ([url=http://www.havenandhearth.com/forum/viewtopic.php?f=49&amp;t=40754]Ender's client[/url])
+	[*]You can now put custom resources into 'res' folder to replace any default ones. ([url=http://www.havenandhearth.com/forum/viewtopic.php?f=49&amp;t=40754]Ender's client[/url])
 	[*]Options to change camera type
 		[list]
 			[*]Default Ortho (snaps to 45, 135, 225, 315)
