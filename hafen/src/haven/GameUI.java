@@ -30,6 +30,7 @@ import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.image.WritableRaster;
 import static haven.Inventory.invsq;
+import java.awt.image.BufferedImage;
 
 public class GameUI extends ConsoleHost implements Console.Directory {
 
@@ -77,7 +78,10 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 			if (map != null) {
 				Coord mvc = map.rootxlate(ui.mc);
 				if (mvc.isect(Coord.z, map.sz)) {
-					map.delay(map.new Hittest(mvc) {
+					map.delay(map.new Hittest( 
+						 
+						 
+						mvc) {
 			    protected void hit(Coord pc, Coord mc, MapView.ClickInfo inf) {
 							if (inf == null) {
 								GameUI.this.wdgmsg("belt", slot, 1, ui.modflags(), mc);
@@ -143,7 +147,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 			}
 		}, new Coord(10, 10));
 		buffs = ulpanel.add(new Bufflist(), new Coord(95, 65));
-		eqproxy = ulpanel.add(new EquipProxy(new int[]{6, 7}), new Coord(200, 35));
+		eqproxy = ulpanel.add(new EquipProxy(new int[]{6, 7}), new Coord(95, 62));
 		syslog = chat.add(new ChatUI.Log("System"));
 		opts = add(new OptWnd());
 		opts.hide();
@@ -184,6 +188,12 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 	protected void attach(UI ui) {
 		super.attach(ui);
 		ui.gui = this;
+	}
+
+	@Override
+	public void destroy() {
+		super.destroy();
+		ui.gui = null;
 	}
 
 	public Equipory getEquipory() {
@@ -654,7 +664,13 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 			WritableRaster buf = PUtils.imgraster(progt.f[fr][0].sz);
 			PUtils.blit(buf, progt.f[fr][0].img.getRaster(), Coord.z);
 			PUtils.blendblit(buf, progt.f[fr + 1][0].img.getRaster(), Coord.z, bf);
-			curprog = new TexI(PUtils.rasterimg(buf));
+			BufferedImage img = PUtils.rasterimg(buf);
+
+			BufferedImage txt = Text.render(String.format("%d%%", (int) (100 * prog))).img;
+			txt = Utils.outline2(txt, Utils.contrast(Color.WHITE), true);
+			img.getGraphics().drawImage(txt, 24 - txt.getWidth() / 2, 9 - txt.getHeight() / 2, null);
+
+			curprog = new TexI(img);
 			curprogf = fr;
 			curprogb = bf;
 		}
@@ -1032,7 +1048,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 		}
 
 		public boolean globtype(char key, KeyEvent ev) {
-			if (key != 0) {
+			if (key != 0 || ui.modctrl) {
 				return (false);
 			}
 			boolean M = (ev.getModifiersEx() & (KeyEvent.META_DOWN_MASK | KeyEvent.ALT_DOWN_MASK)) != 0;
@@ -1164,7 +1180,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 		}
 
 		public boolean globtype(char key, KeyEvent ev) {
-			if (key != 0) {
+			if (key != 0 || ui.modctrl) {
 				return (false);
 			}
 			int c = ev.getKeyChar();
