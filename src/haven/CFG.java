@@ -30,12 +30,14 @@ public enum CFG {
 
     static {
 	gson = (new GsonBuilder()).setPrettyPrinting().create();
-	Map<Object, Object> tmp;
+	Map<Object, Object> tmp = null;
 	try {
 	    Type type = new TypeToken<Map<Object, Object>>() {
 	    }.getType();
 	    tmp = gson.fromJson(Config.loadFile(CONFIG_JSON), type);
 	} catch(Exception e) {
+	}
+	if(tmp == null){
 	    tmp = new HashMap<Object, Object>();
 	}
 	cfg = tmp;
