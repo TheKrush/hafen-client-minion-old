@@ -67,6 +67,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
     public Belt beltwdg;
     public String polowner;
     public Bufflist buffs;
+    public CraftWnd craftwnd;
 
     public abstract class Belt extends Widget {
 	public Belt(Coord sz) {
@@ -172,8 +173,8 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 
     @Override
     protected void attach(UI ui) {
-	super.attach(ui);
 	ui.gui = this;
+	super.attach(ui);
     }
 
     @Override
@@ -299,6 +300,20 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 	    });
 	Debug.log = ui.cons.out;
 	opts.c = sz.sub(opts.sz).div(2);
+    }
+
+    public void showCraftWnd() {
+	if(craftwnd == null ){
+	    craftwnd = add(new CraftWnd());
+	}
+    }
+
+    public void toggleCraftWnd() {
+	if(craftwnd == null) {
+	    showCraftWnd();
+	} else {
+	    craftwnd.wdgmsg(craftwnd, "close");
+	}
     }
     
     public class Hidepanel extends Widget {
@@ -527,7 +542,10 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 	    chrwdg.hide();
 	} else if(place == "craft") {
 	    final Widget mkwdg = child;
-	    makewnd = new Window(Coord.z, "Crafting", true) {
+	    if(craftwnd != null){
+		craftwnd.setMakewindow(mkwdg);
+	    } else {
+		makewnd = new Window(Coord.z, "Crafting", true) {
 		    public void wdgmsg(Widget sender, String msg, Object... args) {
 			if((sender == this) && msg.equals("close")) {
 			    mkwdg.wdgmsg("close");
@@ -535,6 +553,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 			}
 			super.wdgmsg(sender, msg, args);
 		    }
+
 		    public void cdestroy(Widget w) {
 			if(w == mkwdg) {
 			    ui.destroy(this);
@@ -542,9 +561,10 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 			}
 		    }
 		};
-	    makewnd.add(mkwdg, Coord.z);
-	    makewnd.pack();
-	    add(makewnd, new Coord(400, 200));
+		makewnd.add(mkwdg, Coord.z);
+		makewnd.pack();
+		add(makewnd, new Coord(400, 200));
+	    }
 	} else if(place == "buddy") {
 	    zerg.ntab(buddies = (BuddyWnd)child, zerg.kin);
 	} else if(place == "pol") {
