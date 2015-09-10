@@ -78,7 +78,10 @@ Download [url=http://thekrush.github.io/hafen-client-minion/files/hafen-minion.j
 			[*]Default Ortho (no snapping)
 			[*]Follow (rotates slowly to follow behind player)
 		[/list]
-	[*]Option to display item meter as progress bar ([url=http://www.havenandhearth.com/forum/viewtopic.php?f=49&amp;t=40400]romovs' amber client[/url])[/list]
+	[*]Option to display item meter as progress bar ([url=http://www.havenandhearth.com/forum/viewtopic.php?f=49&amp;t=40400]romovs' amber client[/url])
+	[*]Added current player name to chat messages sent
+	[*]Added player names to private chat messages
+[/list]
 [b]Notable Bug Fixes:[/b] - [url=https://github.com/TheKrush/hafen-client-minion/issues?q=is%3Aopen+is%3Aissue+label%3Abug]view current bugs[/url]
 [list]
 	[*]Various client crashes
