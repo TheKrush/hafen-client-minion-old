@@ -67,7 +67,7 @@ Download [url=http://thekrush.github.io/hafen-client-minion/files/hafen-minion.j
 		[/list]
 	[*]Option to use chat timestamps ([url=http://www.havenandhearth.com/forum/viewtopic.php?f=49&amp;t=40754]Ender's client[/url])
 	[*]Option to store chat logs ([url=http://www.havenandhearth.com/forum/viewtopic.php?f=49&amp;t=40754]Ender's client[/url])
-	[*]Added displaying of percentage to hourglass ([url=http://www.havenandhearth.com/forum/viewtopic.php?f=49&amp;t=40754]Ender's client[/url])
+	[*]Option to display percentage above hourglass ([url=http://www.havenandhearth.com/forum/viewtopic.php?f=49&amp;t=40754]Ender's client[/url])
 	[*]Added CTRL+1 and CTRL+2 to simulate left clicks on quick access hand slots ([url=http://www.havenandhearth.com/forum/viewtopic.php?f=49&amp;t=40754]Ender's client[/url])
 	[*]Client now should show error window in case of crash ([url=http://www.havenandhearth.com/forum/viewtopic.php?f=49&amp;t=40754]Ender's client[/url])
 	[*]You can now put custom resources into 'res' folder to replace any default ones. ([url=http://www.havenandhearth.com/forum/viewtopic.php?f=49&amp;t=40754]Ender's client[/url])
@@ -78,6 +78,7 @@ Download [url=http://thekrush.github.io/hafen-client-minion/files/hafen-minion.j
 			[*]Default Ortho (no snapping)
 			[*]Follow (rotates slowly to follow behind player)
 		[/list]
+	[*]Option to display item meter as progress bar ([url=http://www.havenandhearth.com/forum/viewtopic.php?f=49&amp;t=40400]romovs' amber client[/url])
 [/list]
 [b]Notable Bug Fixes:[/b] - [url=https://github.com/TheKrush/hafen-client-minion/issues?q=is%3Aopen+is%3Aissue+label%3Abug]view current bugs[/url]
 [list]
