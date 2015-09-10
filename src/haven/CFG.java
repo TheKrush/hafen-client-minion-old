@@ -14,6 +14,7 @@ public enum CFG {
     STORE_MAP("general.storemap", Utils.getprefb("storemap", false)),
     SHOW_CHAT_TIMESTAMP("ui.chat.timestamp", true),
     STORE_CHAT_LOGS("ui.chat.logs", false),
+    LOCK_STUDY("ui.lock_study", false),
 
     CAMERA_BRIGHT("camera.bright", 0f),
 
