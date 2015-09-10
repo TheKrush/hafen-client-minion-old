@@ -26,9 +26,7 @@
 
 package haven;
 
-import static haven.MCache.cmaps;
 import static haven.MCache.tilesz;
-import haven.Resource.Tile;
 import haven.GLProgram.VarID;
 import me.kt.GridOutline;
 
