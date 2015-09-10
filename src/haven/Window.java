@@ -26,9 +26,17 @@
 
 package haven;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.image.BufferedImage;
+import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.Map;
+
 import static haven.PUtils.*;
 
 public class Window extends Widget implements DTarget {
@@ -75,6 +83,7 @@ public class Window extends Widget implements DTarget {
     public int cmw;
     private UI.Grab dm = null;
     private Coord doff;
+    private WndCfg cfg = null;
 
     @RName("wnd")
     public static class $_ implements Factory {
@@ -106,6 +115,24 @@ public class Window extends Widget implements DTarget {
 
     protected void added() {
 	parent.setfocus(this);
+
+	initCfg();
+    }
+
+    private void initCfg() {
+	if(cfg != null) {
+	    c = cfg.c;
+	} else {
+	    updateCfg();
+	}
+    }
+
+    private void updateCfg(){
+	if(cfg == null){
+	    cfg = new WndCfg();
+	}
+	cfg.c = c;
+	WndCfg.set(caption(), cfg);
     }
 
     public void chcap(String cap) {
@@ -113,6 +140,7 @@ public class Window extends Widget implements DTarget {
 	    this.cap = null;
 	else
 	    this.cap = cf.render(cap);
+	cfg = WndCfg.get(cap);
     }
 
     public String caption() {
@@ -267,6 +295,7 @@ public class Window extends Widget implements DTarget {
 	if(dm != null) {
 	    dm.remove();
 	    dm = null;
+	    updateCfg();
 	} else {
 	    super.mouseup(c, button);
 	}
@@ -317,5 +346,44 @@ public class Window extends Widget implements DTarget {
 	    return(ret);
 	else
 	    return("");
+    }
+
+    public static class WndCfg {
+	private static final Gson gson;
+	private static final String CONFIG_JSON = "windows.json";
+	public static final Map<String, WndCfg> CFG;
+
+	public Coord c;
+
+	static {
+	    gson = (new GsonBuilder()).setPrettyPrinting().create();
+	    Map<String, WndCfg> tmp = null;
+	    try {
+		Type type = new TypeToken<Map<String, WndCfg>>() {
+		}.getType();
+		tmp = gson.fromJson(Config.loadFile(CONFIG_JSON), type);
+	    } catch (Exception ignored) {
+	    }
+	    if(tmp == null) {
+		tmp = new HashMap<String, WndCfg>();
+	    }
+	    CFG = tmp;
+	}
+
+	public static synchronized WndCfg get(String name) {
+	    return name != null ? CFG.get(name) : null;
+	}
+
+	public static synchronized void set(String name, WndCfg cfg){
+	    if(name == null || cfg == null){
+		return;
+	    }
+	    CFG.put(name, cfg);
+	    store();
+	}
+
+	private static synchronized void store() {
+	    Config.saveFile(CONFIG_JSON, gson.toJson(CFG));
+	}
     }
 }
