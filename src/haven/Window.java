@@ -84,6 +84,7 @@ public class Window extends Widget implements DTarget {
     private UI.Grab dm = null;
     private Coord doff;
     private WndCfg cfg = null;
+    public boolean justclose = false;;
 
     @RName("wnd")
     public static class $_ implements Factory {
@@ -312,7 +313,10 @@ public class Window extends Widget implements DTarget {
 
     public void wdgmsg(Widget sender, String msg, Object... args) {
 	if(sender == cbtn) {
-	    wdgmsg("close");
+	    if(justclose)
+		ui.destroy(this);
+	    else
+	    	wdgmsg("close");
 	} else {
 	    super.wdgmsg(sender, msg, args);
 	}
@@ -322,7 +326,10 @@ public class Window extends Widget implements DTarget {
 	if(super.type(key, ev))
 	    return(true);
 	if(key == 27) {
-	    wdgmsg("close");
+	    if(justclose)
+		ui.destroy(this);
+	    else
+	    	wdgmsg("close");
 	    return(true);
 	}
 	return(false);

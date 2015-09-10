@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum CFG {
+    VERSION("version",""),
     DISPLAY_KINNAMES("display.kinnames", Utils.getprefb("showkinnames", true)),
     DISPLAY_FLAVOR("display.flavor", Utils.getprefb("showflavor", true)),
     STORE_MAP("general.storemap", Utils.getprefb("storemap", false)),

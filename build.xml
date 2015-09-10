@@ -70,10 +70,10 @@
 
   <target name="resources">
     <exec executable="java" failifexecutionfails="false">
-      <arg line="-jar resources/LayerUtil.jar -re resources/src resources/compiled/res"/>
+      <arg line="-jar resources/LayerUtil.jar -re resources/src resources/compiled/res" />
     </exec>
     <jar destfile="build/client-res.jar" update="true">
-      <fileset dir="resources/compiled"/>
+      <fileset dir="resources/compiled" />
     </jar>
   </target>
 
@@ -81,9 +81,10 @@
     <jar destfile="build/hafen.jar" update="true">
       <fileset dir="build/classes" />
       <fileset dir="build/classes-lib" />
+      <fileset file="changelog.txt" />
       <manifest>
-  <attribute name="Main-Class" value="haven.MainFrame" />
-  <attribute name="Class-Path" value="jogl.jar gluegen-rt.jar client-res.jar builtin-res.jar hafen-res.jar" />
+        <attribute name="Main-Class" value="haven.MainFrame" />
+        <attribute name="Class-Path" value="jogl.jar gluegen-rt.jar client-res.jar builtin-res.jar hafen-res.jar" />
       </manifest>
     </jar>
     <chmod file="build/hafen.jar" perm="a+x" />
