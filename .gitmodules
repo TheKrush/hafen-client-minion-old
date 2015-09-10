@@ -1,0 +1,3 @@
+[submodule "combiner"]
+	path = hafen-map-combiner
+	url = https://github.com/TheKrush/hafen-map-combiner

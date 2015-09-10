@@ -1,3 +1,0 @@
-Manifest-Version: 1.0
-Class-Path: jogl.jar gluegen-rt.jar builtin-res.jar hafen-res.jar
-Main-Class: haven.MainFrame
