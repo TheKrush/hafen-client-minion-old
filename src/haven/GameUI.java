@@ -68,6 +68,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
     public String polowner;
     public Bufflist buffs;
     public CraftWnd craftwnd;
+    public TimerPanel timers;
 
     public abstract class Belt extends Widget {
 	public Belt(Coord sz) {
@@ -175,6 +176,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
     protected void attach(UI ui) {
 	ui.gui = this;
 	super.attach(ui);
+	timers = add(new TimerPanel(), 250, 100);
     }
 
     @Override

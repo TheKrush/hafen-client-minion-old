@@ -314,7 +314,7 @@ public class Window extends Widget implements DTarget {
     public void wdgmsg(Widget sender, String msg, Object... args) {
 	if(sender == cbtn) {
 	    if(justclose)
-		ui.destroy(this);
+		close();
 	    else
 	    	wdgmsg("close");
 	} else {
@@ -322,12 +322,16 @@ public class Window extends Widget implements DTarget {
 	}
     }
 
+    public void close() {
+	ui.destroy(this);
+    }
+
     public boolean type(char key, java.awt.event.KeyEvent ev) {
 	if(super.type(key, ev))
 	    return(true);
 	if(key == 27) {
 	    if(justclose)
-		ui.destroy(this);
+		close();
 	    else
 	    	wdgmsg("close");
 	    return(true);
