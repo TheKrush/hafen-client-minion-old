@@ -400,7 +400,7 @@ public class MenuGrid extends Widget {
     }
 
     public boolean isCrafting(Pagina p) {
-	return isCrafting(p.res()) || isCrafting(getParent(p));
+	return (p != null) && (isCrafting(p.res()) || isCrafting(getParent(p)));
     }
 
     public boolean isCrafting(Resource res){
