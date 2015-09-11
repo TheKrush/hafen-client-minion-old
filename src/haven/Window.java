@@ -37,6 +37,9 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
+import java.util.Collection;
+import java.util.LinkedList;
+
 import static haven.PUtils.*;
 
 public class Window extends Widget implements DTarget {
@@ -85,6 +88,7 @@ public class Window extends Widget implements DTarget {
     private Coord doff;
     private WndCfg cfg = null;
     public boolean justclose = false;;
+    private final Collection<Widget> twdgs = new LinkedList<Widget>();
 
     @RName("wnd")
     public static class $_ implements Factory {
@@ -219,7 +223,7 @@ public class Window extends Widget implements DTarget {
     public Coord contentsz() {
 	Coord max = new Coord(0, 0);
 	for(Widget wdg = child; wdg != null; wdg = wdg.next) {
-	    if(wdg == cbtn)
+	    if(wdg == cbtn || twdgs.contains(wdg))
 		continue;
 	    if(!wdg.visible)
 		continue;
@@ -230,6 +234,20 @@ public class Window extends Widget implements DTarget {
 		max.y = br.y;
 	}
 	return(max);
+    }
+
+    public void addtwdg(Widget wdg) {
+	twdgs.add(wdg);
+	placetwdgs();
+    }
+
+    protected void placetwdgs() {
+	int x = sz.x - 20;
+	for(Widget ch : twdgs) {
+	    if(ch.visible){
+		ch.c = xlate(new Coord(x -= ch.sz.x + 5, ctl.y - ch.sz.y/2), false);
+	    }
+	}
     }
 
     private void placecbtn() {
@@ -249,6 +267,7 @@ public class Window extends Widget implements DTarget {
 	cpsz = tlo.add(cpo.x + cmw, cm.sz().y).sub(cptl);
 	cmw = cmw - (cl.sz().x - cpo.x) - 5;
 	cbtn.c = xlate(tlo.add(wsz.x - cbtn.sz.x, 0), false);
+	placetwdgs();
 	for(Widget ch = child; ch != null; ch = ch.next)
 	    ch.presize();
     }
