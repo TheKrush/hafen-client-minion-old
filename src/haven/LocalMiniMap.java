@@ -28,6 +28,8 @@ package haven;
 
 import static haven.MCache.cmaps;
 import static haven.MCache.tilesz;
+import static haven.MiniMap.bg;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -37,7 +39,6 @@ import haven.resutil.Ridges;
 public class LocalMiniMap extends Widget {
     public final MapView mv;
     private Coord cc = null;
-    private MapTile cur = null;
     private final Map<Coord, Defer.Future<MapTile>> cache = new LinkedHashMap<Coord, Defer.Future<MapTile>>(5, 0.75f, true) {
 	protected boolean removeEldestEntry(Map.Entry<Coord, Defer.Future<MapTile>> eldest) {
 	    if(size() > 5) {
@@ -51,6 +52,7 @@ public class LocalMiniMap extends Widget {
 	    return(false);
 	}
     };
+    private Coord off = new Coord (0,0);
     
     public static class MapTile {
 	public final Tex img;
@@ -110,8 +112,8 @@ public class LocalMiniMap extends Widget {
 		}
 	    }
 	}
-	for(c.y = 0; c.y < sz.y; c.y++) {
-	    for(c.x = 0; c.x < sz.x; c.x++) {
+	for(c.y = 1; c.y < sz.y-1; c.y++) {
+	    for(c.x = 1; c.x < sz.x-1; c.x++) {
 		int t = m.gettile(ul.add(c));
 		if((m.gettile(ul.add(c).add(-1, 0)) > t) ||
 		   (m.gettile(ul.add(c).add( 1, 0)) > t) ||
@@ -182,27 +184,42 @@ public class LocalMiniMap extends Widget {
     public void draw(GOut g) {
 	if(cc == null)
 	    return;
-	final Coord plg = cc.div(cmaps);
-	if((cur == null) || !plg.equals(cur.c)) {
-	    Defer.Future<MapTile> f;
-	    synchronized(cache) {
-		f = cache.get(plg);
-		if(f == null) {
-		    f = Defer.later(new Defer.Callable<MapTile> () {
+	Coord plg = cc.div(cmaps);
+
+	Coord center = cc.add(off);
+	Coord hsz = sz.div(2);
+
+	Coord ulg = center.sub(hsz).div(cmaps);
+	Coord brg = center.add(hsz).div(cmaps);
+
+	Coord cur = new Coord();
+	for(cur.x = ulg.x; cur.x < brg.x; cur.x++) {
+	    for(cur.y = ulg.y; cur.y < brg.y; cur.y++) {
+		Defer.Future<MapTile> f;
+		synchronized(cache) {
+		    f = cache.get(cur);
+		    if(f == null && cur.manhattan2(plg) <= 1) {
+			final Coord tmp = new Coord(cur);
+			f = Defer.later(new Defer.Callable<MapTile>() {
 			    public MapTile call() {
-				Coord ul = plg.mul(cmaps).sub(cmaps).add(1, 1);
-				return(new MapTile(new TexI(drawmap(ul, cmaps.mul(3).sub(2, 2))), ul, plg));
+				Coord ul = tmp.mul(cmaps);
+				BufferedImage drawmap = drawmap(ul, cmaps);
+				System.out.println(tmp);
+				return (new MapTile(new TexI(drawmap), ul, tmp));
 			    }
 			});
-		    cache.put(plg, f);
+			cache.put(plg, f);
+		    }
+		}
+		if(f != null && f.done()){
+		    MapTile map = f.get();
+		    g.image(map.img, map.ul.sub(center).add(hsz));
+
 		}
 	    }
-	    if(f.done())
-		cur = f.get();
 	}
 	if(cur != null) {
-	    g.image(MiniMap.bg, Coord.z);
-	    g.image(cur.img, cur.ul.sub(cc).add(sz.div(2)));
+	    //g.image(MiniMap.bg, Coord.z);
 	    try {
 		synchronized(ui.sess.glob.party.memb) {
 		    for(Party.Member m : ui.sess.glob.party.memb.values()) {
