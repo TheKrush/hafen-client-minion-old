@@ -621,9 +621,11 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 	}
 	if(mmappanel != null) {
 	    mmappanel.setmap(mmap);
+	    blpanel.hide();
 	} else {
 	    mmap.sz = new Coord(133, 133);
 	    blpanel.add(mmap, 4, 34 + 9);
+	    blpanel.show();
 	}
 	mmap.lower();
     }
