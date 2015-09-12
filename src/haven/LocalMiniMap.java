@@ -193,8 +193,8 @@ public class LocalMiniMap extends Widget {
 	Coord brg = center.add(hsz).div(cmaps);
 
 	Coord cur = new Coord();
-	for(cur.x = ulg.x; cur.x < brg.x; cur.x++) {
-	    for(cur.y = ulg.y; cur.y < brg.y; cur.y++) {
+	for(cur.x = ulg.x; cur.x <= brg.x; cur.x++) {
+	    for(cur.y = ulg.y; cur.y <= brg.y; cur.y++) {
 		Defer.Future<MapTile> f;
 		synchronized(cache) {
 		    f = cache.get(cur);
