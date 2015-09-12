@@ -53,6 +53,7 @@ public class LocalMiniMap extends Widget {
 	}
     };
     private Coord off = new Coord (0,0);
+    private Coord doff = null;
     
     public static class MapTile {
 	public final Tex img;
@@ -131,11 +132,11 @@ public class LocalMiniMap extends Widget {
     }
     
     public Coord p2c(Coord pc) {
-	return(pc.div(tilesz).sub(cc).add(sz.div(2)));
+	return(pc.div(tilesz).sub(cc.add(off)).add(sz.div(2)));
     }
 
     public Coord c2p(Coord c) {
-	return(c.sub(sz.div(2)).add(cc).mul(tilesz).add(tilesz.div(2)));
+	return(c.sub(sz.div(2)).add(cc.add(off)).mul(tilesz).add(tilesz.div(2)));
     }
 
     public void drawicons(GOut g) {
@@ -249,6 +250,29 @@ public class LocalMiniMap extends Widget {
 	    mv.wdgmsg("click", rootpos().add(c), c2p(c), button, ui.modflags());
 	else
 	    mv.wdgmsg("click", rootpos().add(c), c2p(c), button, ui.modflags(), 0, (int)gob.id, gob.rc, 0, -1);
+	if(button == 3){
+	    doff = c;
+	} else if(button == 2){
+	    off = new Coord();
+	}
 	return(true);
+    }
+
+
+    @Override
+    public void mousemove(Coord c) {
+	if(doff != null){
+	    off = off.add(doff.sub(c));
+	    doff = c;
+	}
+	super.mousemove(c);
+    }
+
+    @Override
+    public boolean mouseup(Coord c, int button) {
+	if(button == 3){
+	    doff = null;
+	}
+	return super.mouseup(c, button);
     }
 }
