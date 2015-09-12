@@ -86,7 +86,7 @@ public class Window extends Widget implements DTarget {
     public int cmw;
     private UI.Grab dm = null;
     protected Coord doff;
-    private WndCfg cfg = null;
+    protected WndCfg cfg = null;
     public boolean justclose = false;;
     private final Collection<Widget> twdgs = new LinkedList<Widget>();
 
@@ -124,7 +124,7 @@ public class Window extends Widget implements DTarget {
 	initCfg();
     }
 
-    private void initCfg() {
+    protected void initCfg() {
 	if(cfg != null) {
 	    c = cfg.c;
 	} else {
@@ -132,11 +132,19 @@ public class Window extends Widget implements DTarget {
 	}
     }
 
-    private void updateCfg(){
+    protected void updateCfg(){
+	setCfg();
+	storeCfg();
+    }
+
+    protected void setCfg() {
 	if(cfg == null){
 	    cfg = new WndCfg();
 	}
 	cfg.c = c;
+    }
+
+    protected void storeCfg() {
 	WndCfg.set(caption(), cfg);
     }
 
@@ -383,7 +391,7 @@ public class Window extends Widget implements DTarget {
 	private static final String CONFIG_JSON = "windows.json";
 	public static final Map<String, WndCfg> CFG;
 
-	public Coord c;
+	public Coord c, sz;
 
 	static {
 	    gson = (new GsonBuilder()).setPrettyPrinting().create();
