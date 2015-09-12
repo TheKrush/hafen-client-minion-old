@@ -89,7 +89,7 @@ public class LocalMiniMap extends Widget {
 	    for(c.x = 0; c.x < sz.x; c.x++) {
 		int t = m.gettile(ul.add(c));
 		BufferedImage tex = tileimg(t, texes);
-		int rgb = 0;
+		int rgb = 0xffffffff;
 		if(tex != null)
 		    rgb = tex.getRGB(Utils.floormod(c.x + ul.x, tex.getWidth()),
 				     Utils.floormod(c.y + ul.y, tex.getHeight()));
@@ -212,33 +212,31 @@ public class LocalMiniMap extends Widget {
 		}
 		if(f != null && f.done()){
 		    MapTile map = f.get();
-		    g.image(map.img, map.ul.sub(center).add(hsz));
+		    Coord tc = map.ul.sub(center).add(hsz);
+		    //g.image(MiniMap.bg, tc);
+		    g.image(map.img, tc);
 
 		}
 	    }
 	}
-	if(cur != null) {
-	    //g.image(MiniMap.bg, Coord.z);
-	    try {
-		synchronized(ui.sess.glob.party.memb) {
-		    for(Party.Member m : ui.sess.glob.party.memb.values()) {
-			Coord ptc;
-			try {
-			    ptc = m.getc();
-			} catch(MCache.LoadingMap e) {
-			    ptc = null;
-			}
-			if(ptc == null)
-			    continue;
-			ptc = p2c(ptc);
-			g.chcolor(m.col.getRed(), m.col.getGreen(), m.col.getBlue(), 128);
-			g.image(MiniMap.plx.layer(Resource.imgc).tex(), ptc.add(MiniMap.plx.layer(Resource.negc).cc.inv()));
-			g.chcolor();
+	try {
+	    synchronized (ui.sess.glob.party.memb) {
+		for (Party.Member m : ui.sess.glob.party.memb.values()) {
+		    Coord ptc;
+		    try {
+			ptc = m.getc();
+		    } catch (MCache.LoadingMap e) {
+			ptc = null;
 		    }
+		    if(ptc == null)
+			continue;
+		    ptc = p2c(ptc);
+		    g.chcolor(m.col.getRed(), m.col.getGreen(), m.col.getBlue(), 255);
+		    g.image(MiniMap.plx.layer(Resource.imgc).tex(), ptc.add(MiniMap.plx.layer(Resource.negc).cc.inv()));
+		    g.chcolor();
 		}
-	    } catch(Loading l) {}
-	} else {
-	    g.image(MiniMap.nomap, Coord.z);
+	    }
+	} catch (Loading ignored) {
 	}
 	drawicons(g);
     }
