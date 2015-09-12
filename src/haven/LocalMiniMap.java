@@ -41,7 +41,7 @@ public class LocalMiniMap extends Widget {
     private Coord cc = null;
     private final Map<Coord, Defer.Future<MapTile>> cache = new LinkedHashMap<Coord, Defer.Future<MapTile>>(5, 0.75f, true) {
 	protected boolean removeEldestEntry(Map.Entry<Coord, Defer.Future<MapTile>> eldest) {
-	    if(size() > 5) {
+	    if(size() > 100) {
 		try {
 		    MapTile t = eldest.getValue().get();
 		    t.img.dispose();
@@ -204,11 +204,10 @@ public class LocalMiniMap extends Widget {
 			    public MapTile call() {
 				Coord ul = tmp.mul(cmaps);
 				BufferedImage drawmap = drawmap(ul, cmaps);
-				System.out.println(tmp);
 				return (new MapTile(new TexI(drawmap), ul, tmp));
 			    }
 			});
-			cache.put(plg, f);
+			cache.put(new Coord(cur), f);
 		    }
 		}
 		if(f != null && f.done()){
