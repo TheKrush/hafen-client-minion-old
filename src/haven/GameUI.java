@@ -633,7 +633,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
     public void showmmappanel(boolean show) {
 	if(show) {
 	    if(mmappanel == null) {
-		mmappanel = add(new MiniMapPanel(new Coord(133, 133)));
+		mmappanel = add(new MiniMapPanel());
 	    }
 	} else {
 	    if(mmappanel != null) {
