@@ -16,6 +16,7 @@ public enum CFG {
     SHOW_CHAT_TIMESTAMP("ui.chat.timestamp", true),
     STORE_CHAT_LOGS("ui.chat.logs", false),
     LOCK_STUDY("ui.lock_study", false),
+    MMAP_FLOAT("ui.mmapfloat", false),
 
     CAMERA_BRIGHT("camera.bright", 0f),
 
@@ -37,7 +38,7 @@ public enum CFG {
 	    Type type = new TypeToken<Map<Object, Object>>() {
 	    }.getType();
 	    tmp = gson.fromJson(Config.loadFile(CONFIG_JSON), type);
-	} catch(Exception e) {
+	} catch(Exception ignored) {
 	}
 	if(tmp == null){
 	    tmp = new HashMap<Object, Object>();

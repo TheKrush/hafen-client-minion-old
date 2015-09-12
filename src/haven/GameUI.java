@@ -42,7 +42,8 @@ public class GameUI extends ConsoleHost implements Console.Directory {
     public Avaview portrait;
     public MenuGrid menu;
     public MapView map;
-    public Widget mmap;
+    public LocalMiniMap mmap;
+    public MiniMapPanel mmappanel;
     public Fightview fv;
     private List<Widget> meters = new LinkedList<Widget>();
     private Text lasterr;
@@ -149,6 +150,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 	opts.hide();
 	zerg = add(new Zergwnd(), 187, 50);
 	zerg.hide();
+	showmmappanel(CFG.MMAP_FLOAT.valb());
     }
 
     private void mapbuttons() {
@@ -512,10 +514,8 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 	    map.lower();
 	    if(mmap != null)
 		ui.destroy(mmap);
-	    //mmap = blpanel.add(new LocalMiniMap(new Coord(133, 133), map), 4, 34 + 9);
-	    MiniMapPanel wnd = add(new MiniMapPanel(new Coord(75, 75)));
-	    mmap = wnd.setmap(new LocalMiniMap(new Coord(75, 75), map));
-	    mmap.lower();
+	    mmap = new LocalMiniMap(new Coord(133, 133), map);
+	    placemmap();
 	} else if(place == "fight") {
 	    fv = urpanel.add((Fightview)child, 0, 0);
 	} else if(place == "fsess") {
@@ -591,7 +591,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 	    throw(new UI.UIException("Illegal gameui child", place, args));
 	}
     }
-    
+
     public void cdestroy(Widget w) {
 	if(w instanceof GItem) {
 	    for(Iterator<DraggedItem> i = hand.iterator(); i.hasNext();) {
@@ -606,8 +606,38 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 	    zerg.dtab(zerg.pol);
 	} else if(w == chrwdg) {
 	    chrwdg = null;
+	} else if(w == mmappanel){
+	    mmappanel = null;
+	    placemmap();
 	}
 	meters.remove(w);
+    }
+
+    public void placemmap() {
+	if(mmap == null){return;}
+	if(mmap.parent != null) {
+	    mmap.unlink();
+	}
+	if(mmappanel != null) {
+	    mmappanel.setmap(mmap);
+	} else {
+	    mmap.sz = new Coord(133, 133);
+	    blpanel.add(mmap, 4, 34 + 9);
+	}
+	mmap.lower();
+    }
+
+    public void showmmappanel(boolean show) {
+	if(show) {
+	    if(mmappanel == null) {
+		mmappanel = add(new MiniMapPanel(new Coord(133, 133)));
+	    }
+	} else {
+	    if(mmappanel != null) {
+		ui.destroy(mmappanel);
+	    }
+	}
+	placemmap();
     }
     
     private static final Resource.Anim progt = Resource.local().loadwait("gfx/hud/prog").layer(Resource.animc);
