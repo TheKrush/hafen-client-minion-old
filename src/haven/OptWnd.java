@@ -303,14 +303,34 @@ public class OptWnd extends Window {
 	display.add(new CFGBox("Store chat logs", CFG.STORE_CHAT_LOGS, "Logs are stored in 'chats' folder"), new Coord(x, y));
 
 	y += 25;
-	display.add(new CFGBox("Undock minimap", CFG.MMAP_FLOAT){
+	display.add(new CFGBox("Undock minimap", CFG.MMAP_FLOAT) {
+	    {
+		CFG.MMAP_FLOAT.setObserver(new CFG.Observer() {
+		    @Override
+		    public void updated(CFG cfg) {
+			update(cfg);
+		    }
+		});
+	    }
+
 	    @Override
 	    public void set(boolean a) {
 		super.set(a);
-		if(ui != null && ui.gui != null){
+		if(ui != null && ui.gui != null) {
 		    ui.gui.showmmappanel(a);
 		}
 	    }
+
+	    @Override
+	    public void destroy() {
+		CFG.MMAP_FLOAT.setObserver(null);
+		super.destroy();
+	    }
+
+	    private void update(CFG cfg) {
+		a = cfg.valb();
+	    }
+
 	}, new Coord(x, y));
 
 	my = Math.max(my, y);
