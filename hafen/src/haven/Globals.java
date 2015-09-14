@@ -1,5 +1,6 @@
 package haven;
 
+import haven.Window.WindowCFG;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -33,7 +34,7 @@ public class Globals {
 	private static File CustomFile(String folderName, String fileName) {
 		return CustomFile(folderName, fileName, false);
 	}
-	
+
 	private static File CustomFile(String folderName, String fileName, boolean useDefault) {
 		return CustomFile(folderName, fileName, useDefault, SESSION_TIMESTAMP);
 	}
@@ -196,5 +197,6 @@ public class Globals {
 		} catch (FileNotFoundException ex) {
 		}
 		CFG.loadConfig();
+		WindowCFG.loadConfig();
 	}
 }

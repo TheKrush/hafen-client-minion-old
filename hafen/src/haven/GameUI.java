@@ -48,6 +48,8 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 	private Text lasterr;
 	private long errtime;
 	private Window invwnd, equwnd, makewnd;
+	public CraftWnd craftwnd;
+	public TimerPanel timers;
 	public Inventory maininv;
 	public CharWnd chrwdg;
 	public BuddyWnd buddies;
@@ -78,7 +80,17 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 			if (map != null) {
 				Coord mvc = map.rootxlate(ui.mc);
 				if (mvc.isect(Coord.z, map.sz)) {
-					map.delay(map.new Hittest(mvc) {
+					map.delay(map.new Hittest( 
+						 
+						 
+						 
+						 
+						 
+						 
+						 
+						 
+						 
+						mvc) {
 						protected void hit(Coord pc, Coord mc, MapView.ClickInfo inf) {
 							if (inf == null) {
 								GameUI.this.wdgmsg("belt", slot, 1, ui.modflags(), mc);
@@ -185,6 +197,8 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 	protected void attach(UI ui) {
 		super.attach(ui);
 		ui.gui = this;
+		super.attach(ui);
+		timers = add(new TimerPanel(), 250, 100);
 	}
 
 	@Override
@@ -341,6 +355,20 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 		opts.c = sz.sub(opts.sz).div(2);
 	}
 
+	public void showCraftWnd() {
+		if (craftwnd == null) {
+			craftwnd = add(new CraftWnd());
+		}
+	}
+
+	public void toggleCraftWnd() {
+		if (craftwnd == null) {
+			showCraftWnd();
+		} else {
+			craftwnd.wdgmsg(craftwnd, "close");
+		}
+	}
+
 	public class Hidepanel extends Widget {
 
 		public final String id;
@@ -370,7 +398,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 				return (base.get());
 			}
 			return (new Coord((g.x > 0) ? parent.sz.x : 0,
-					(g.y > 0) ? parent.sz.y : 0));
+							(g.y > 0) ? parent.sz.y : 0));
 		}
 
 		public void move(double a) {
@@ -586,26 +614,27 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 			chrwdg.hide();
 		} else if (place == "craft") {
 			final Widget mkwdg = child;
-			makewnd = new Window(Coord.z, "Crafting", true) {
-				public void wdgmsg(Widget sender, String msg, Object... args) {
-					if ((sender == this) && msg.equals("close")) {
-						mkwdg.wdgmsg("close");
-						return;
+			if (craftwnd != null) {
+				craftwnd.setMakewindow(mkwdg);
+			} else {
+				makewnd = new Window(Coord.z, "Crafting", true) {
+					public void wdgmsg(Widget sender, String msg, Object... args) {
+						if ((sender == this) && msg.equals("close")) {
+							mkwdg.wdgmsg("close");
+						}
+						super.wdgmsg(sender, msg, args);
 					}
-					super.wdgmsg(sender, msg, args);
-				}
 
-				public void cdestroy(Widget w) {
-					if (w == mkwdg) {
-						ui.destroy(this);
-						makewnd = null;
+					public void cdestroy(Widget w) {
+						if (w == mkwdg) {
+							ui.destroy(this);
+						}
 					}
-				}
-			};
-			makewnd.add(mkwdg, Coord.z);
-			makewnd.pack();
-			Coord childcenter = new Coord(makewnd.sz.x / 2, makewnd.sz.y / 2);
-			add(makewnd, new Coord(center.x - childcenter.x, 0/*center.y - childcenter.y*/)); // upper center
+				};
+				makewnd.add(mkwdg, Coord.z);
+				makewnd.pack();
+				add(makewnd, new Coord(400, 200));
+			}
 		} else if (place == "buddy") {
 			zerg.ntab(buddies = (BuddyWnd) child, zerg.kin);
 		} else if (place == "pol") {
@@ -961,13 +990,40 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 		resize(parent.sz);
 	}
 
-	private static final Resource errsfx = Resource.local().loadwait("sfx/error");
-
 	public void error(String msg) {
+		message(msg, MsgType.ERROR);
+	}
+
+	public void message(String msg, MsgType type) {
+		message(msg, type.color);
+		if (type.sfx != null) {
+			Audio.play(type.sfx);
+		}
+	}
+
+	public void message(String msg, Color msgColor) {
 		errtime = System.currentTimeMillis();
 		lasterr = errfoundry.render(msg);
 		syslog.append(msg, Color.RED);
-		Audio.play(errsfx);
+		lasterr = errfoundry.render(msg, msgColor);
+		syslog.append(msg, msgColor);
+	}
+
+	public static enum MsgType {
+
+		INFO(Color.CYAN), GOOD(Color.GREEN), BAD(Color.RED), ERROR(Color.RED, "sfx/error");
+
+		public final Color color;
+		public final Resource sfx;
+
+		MsgType(Color color) {
+			this(color, null);
+		}
+
+		MsgType(Color color, String sfx) {
+			this.color = color;
+			this.sfx = (sfx != null) ? Resource.local().loadwait(sfx) : null;
+		}
 	}
 
 	public void act(String... args) {

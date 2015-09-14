@@ -26,13 +26,11 @@
 package haven;
 
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 
 public class RootWidget extends ConsoleHost {
 
 	public static final Resource defcurs = Resource.local().loadwait("gfx/hud/curs/arw");
 	Profile guprof, grprof, ggprof;
-	boolean afk = false;
 
 	public RootWidget(UI ui, Coord sz) {
 		super(ui, new Coord(0, 0), sz);
@@ -44,6 +42,7 @@ public class RootWidget extends ConsoleHost {
 		if (!super.globtype(key, ev)) {
 			int code = ev.getKeyCode();
 			boolean CTRL = ui.modctrl;
+			boolean ALT = ui.modmeta;
 			if (key == '`') {
 				GameUI gi = findchild(GameUI.class);
 				if (Config.profile) {
@@ -63,6 +62,14 @@ public class RootWidget extends ConsoleHost {
 			} else if (CTRL && code == KeyEvent.VK_2) {
 				if (ui.gui != null) {
 					ui.gui.eqproxy.activate(1);
+				}
+			} else if (ALT && code == KeyEvent.VK_C) {
+				if (ui.gui != null) {
+					ui.gui.toggleCraftWnd();
+				}
+			} else if (CTRL && code == KeyEvent.VK_G) {
+				if (ui.gui != null) {
+					ui.gui.map.togglegrid();
 				}
 			} else if (key == ':') {
 				entercmd();

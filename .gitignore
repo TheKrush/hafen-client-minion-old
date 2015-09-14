@@ -1,6 +1,12 @@
+*~
+/.classpath
+/.project
+/build
+/hafen-minion/build
+/hafen-minion/dist
+/hafen-minion/nbproject/private
 /hafen/build
-/hafen/dist/
-/hafen/nbproject/private/
-/hafen-minion/build/
-/hafen-minion/dist/
-/hafen-minion/nbproject/private/
+/hafen/dist
+/hafen/nbproject/private
+/hafen/resources/compiled
+out

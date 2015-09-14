@@ -25,10 +25,18 @@
  */
 package haven;
 
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.image.BufferedImage;
 import static haven.PUtils.*;
+import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Collection;
+import java.util.LinkedList;
 
 public class Window extends Widget implements DTarget {
 
@@ -85,7 +93,10 @@ public class Window extends Widget implements DTarget {
 	public Coord wsz, ctl, csz, atl, asz, cptl, cpsz;
 	public int cmw;
 	private UI.Grab dm = null;
-	private Coord doff;
+	protected Coord doff;
+	private WindowCFG cfg = null;
+	public boolean justclose = false;
+	private final Collection<Widget> twdgs = new LinkedList<Widget>();
 
 	@RName("wnd")
 	public static class $_ implements Factory {
@@ -118,6 +129,24 @@ public class Window extends Widget implements DTarget {
 
 	protected void added() {
 		parent.setfocus(this);
+
+		initCfg();
+	}
+
+	private void initCfg() {
+		if (cfg != null) {
+			c = cfg.c;
+		} else {
+			updateCfg();
+		}
+	}
+
+	private void updateCfg() {
+		if (cfg == null) {
+			cfg = new WindowCFG();
+		}
+		cfg.c = c;
+		WindowCFG.set(caption(), cfg);
 	}
 
 	public void chcap(String cap) {
@@ -126,6 +155,7 @@ public class Window extends Widget implements DTarget {
 		} else {
 			this.cap = cf.render(cap);
 		}
+		cfg = WindowCFG.get(cap);
 	}
 
 	public String caption() {
@@ -211,7 +241,7 @@ public class Window extends Widget implements DTarget {
 	public Coord contentsz() {
 		Coord max = new Coord(0, 0);
 		for (Widget wdg = child; wdg != null; wdg = wdg.next) {
-			if (wdg == cbtn) {
+			if (wdg == cbtn || twdgs.contains(wdg)) {
 				continue;
 			}
 			if (!wdg.visible) {
@@ -226,6 +256,20 @@ public class Window extends Widget implements DTarget {
 			}
 		}
 		return (max);
+	}
+
+	public void addtwdg(Widget wdg) {
+		twdgs.add(wdg);
+		placetwdgs();
+	}
+
+	protected void placetwdgs() {
+		int x = sz.x - 20;
+		for (Widget ch : twdgs) {
+			if (ch.visible) {
+				ch.c = xlate(new Coord(x -= ch.sz.x + 5, ctl.y - ch.sz.y / 2), false);
+			}
+		}
 	}
 
 	private void placecbtn() {
@@ -245,6 +289,7 @@ public class Window extends Widget implements DTarget {
 		cpsz = tlo.add(cpo.x + cmw, cm.sz().y).sub(cptl);
 		cmw = cmw - (cl.sz().x - cpo.x) - 5;
 		cbtn.c = xlate(tlo.add(wsz.x - cbtn.sz.x, 0), false);
+		placetwdgs();
 		for (Widget ch = child; ch != null; ch = ch.next) {
 			ch.presize();
 		}
@@ -294,6 +339,7 @@ public class Window extends Widget implements DTarget {
 		if (dm != null) {
 			dm.remove();
 			dm = null;
+			updateCfg();
 		} else {
 			super.mouseup(c, button);
 		}
@@ -310,10 +356,18 @@ public class Window extends Widget implements DTarget {
 
 	public void wdgmsg(Widget sender, String msg, Object... args) {
 		if (sender == cbtn) {
-			wdgmsg("close");
+			if (justclose) {
+				close();
+			} else {
+				wdgmsg("close");
+			}
 		} else {
 			super.wdgmsg(sender, msg, args);
 		}
+	}
+
+	public void close() {
+		ui.destroy(this);
 	}
 
 	public boolean type(char key, java.awt.event.KeyEvent ev) {
@@ -321,7 +375,11 @@ public class Window extends Widget implements DTarget {
 			return (true);
 		}
 		if (key == 27) {
-			wdgmsg("close");
+			if (justclose) {
+				close();
+			} else {
+				wdgmsg("close");
+			}
 			return (true);
 		}
 		return (false);
@@ -345,6 +403,54 @@ public class Window extends Widget implements DTarget {
 			return (ret);
 		} else {
 			return ("");
+		}
+	}
+
+	public static class WindowCFG {
+
+		private static final Gson gson = (new GsonBuilder()).setPrettyPrinting().create();
+		private static String CONFIG_JSON;
+		public static Map<String, WindowCFG> cfg = new HashMap<String, WindowCFG>();
+		public Coord c;
+
+		public static void loadConfig() {
+			String configJson = Globals.SettingFileString(Globals.USERNAME + "/windows.json", true);
+			Map<String, WindowCFG> tmp = new HashMap<String, WindowCFG>();
+			try {
+				Type type = new TypeToken<Map<String, WindowCFG>>() {
+				}.getType();
+				// first check if we have username windows
+				String json = Config.loadFile(configJson);
+				if (json != null) {
+					tmp = gson.fromJson(json, type);
+				} else {
+					// now check for default windows
+					configJson = Globals.SettingFileString("/windows.json", true);
+					json = Config.loadFile(configJson);
+					if (json != null) {
+						tmp = gson.fromJson(json, type);
+					}
+				}
+			} catch (Exception e) {
+			}
+			CONFIG_JSON = configJson;
+			cfg = tmp;
+		}
+
+		public static synchronized WindowCFG get(String name) {
+			return name != null ? cfg.get(name) : null;
+		}
+
+		public static synchronized void set(String name, WindowCFG cfg) {
+			if (name == null || cfg == null) {
+				return;
+			}
+			WindowCFG.cfg.put(name, cfg);
+			store();
+		}
+
+		private static synchronized void store() {
+			Config.saveFile(CONFIG_JSON, gson.toJson(cfg));
 		}
 	}
 }
