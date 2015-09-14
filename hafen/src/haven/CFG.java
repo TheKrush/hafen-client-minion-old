@@ -32,6 +32,7 @@ public enum CFG {
 	UI_ITEM_QUALITY_SHOW("ui.item.quality.show", 1), // Show single
 	UI_ITEM_QUALITY_SINGLEASMAX("ui.item.quality.singleasmax", false),
 	UI_MINIMAP_BOULDERS("ui.minimap.boulders", true),
+	UI_MINIMAP_FLOATING("ui.minimap.floating", false),
 	UI_MINIMAP_PLAYERS("ui.minimap.players", true),
 	UI_STUDYLOCK("ui.studylock", false);
 
@@ -42,6 +43,12 @@ public enum CFG {
 	private static final Gson gson = (new GsonBuilder()).setPrettyPrinting().create();
 	private final String path;
 	public final Object def;
+	private Observer observer;
+
+	public static interface Observer {
+
+		void updated(CFG cfg);
+	}
 
 	public static void loadConfig() {
 		String configJson = Globals.SettingFileString(Globals.USERNAME + "/config.json", true);
@@ -97,6 +104,20 @@ public enum CFG {
 
 	public void set(Object value) {
 		CFG.set(this, value);
+		if (observer != null) {
+			observer.updated(this);
+		}
+	}
+
+	public void set(Object value, boolean observe) {
+		set(value);
+		if (observe && observer != null) {
+			observer.updated(this);
+		}
+	}
+
+	public void setObserver(Observer observer) {
+		this.observer = observer;
 	}
 
 	public static synchronized Object get(CFG name) {
