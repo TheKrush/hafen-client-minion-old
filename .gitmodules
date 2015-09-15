@@ -2,5 +2,5 @@
 	path = hafen-map-combiner
 	url = https://github.com/TheKrush/hafen-map-combiner
 [submodule "LayerUtil"]
-	path = LayerUtil
+	path = hafen-layer-util
 	url = https://github.com/TheKrush/LayerUtil.git
