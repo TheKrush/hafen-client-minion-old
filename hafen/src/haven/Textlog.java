@@ -106,6 +106,10 @@ public class Textlog extends Widget {
 				cury -= dy;
 			}
 		}
+		if (cury == maxy) {
+			cury += rl.sz().y;
+		}
+		maxy += rl.sz().y;
 	}
 
 	public void append(String line) {
