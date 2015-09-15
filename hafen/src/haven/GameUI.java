@@ -81,25 +81,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 			if (map != null) {
 				Coord mvc = map.rootxlate(ui.mc);
 				if (mvc.isect(Coord.z, map.sz)) {
-					map.delay(map.new Hittest( 
-						 
-						 
-						 
-						 
-						 
-						 
-						 
-						 
-						 
-						 
-						 
-						 
-						 
-						 
-						 
-						 
-						 
-						mvc) {
+					map.delay(map.new Hittest(mvc) {
 						protected void hit(Coord pc, Coord mc, MapView.ClickInfo inf) {
 							if (inf == null) {
 								GameUI.this.wdgmsg("belt", slot, 1, ui.modflags(), mc);
@@ -704,8 +686,10 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 			mmap.sz = new Coord(133, 133);
 			blpanel.add(mmap, 4, 34 + 9);
 			blpanel.show();
+			mmap.lower();
 		}
-		mmap.lower();
+		
+		toggleui(uimode);
 	}
 
 	public void showmmappanel(boolean show) {
@@ -989,6 +973,9 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 
 	public void toggleui(int mode) {
 		Hidepanel[] panels = {blpanel, brpanel, ulpanel, urpanel, menupanel};
+		if (mmappanel != null) {
+			panels = new Hidepanel[]{brpanel, ulpanel, urpanel, menupanel};
+		}
 		switch (uimode = mode) {
 			case 0:
 				for (Hidepanel p : panels) {
@@ -1010,6 +997,9 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 
 	public void resetui() {
 		Hidepanel[] panels = {blpanel, brpanel, ulpanel, urpanel, menupanel};
+		if (mmappanel != null) {
+			panels = new Hidepanel[]{brpanel, ulpanel, urpanel, menupanel};
+		}
 		for (Hidepanel p : panels) {
 			p.cshow(p.tvis);
 		}
