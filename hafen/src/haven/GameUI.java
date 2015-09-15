@@ -613,6 +613,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 					public void wdgmsg(Widget sender, String msg, Object... args) {
 						if ((sender == this) && msg.equals("close")) {
 							mkwdg.wdgmsg("close");
+							return;
 						}
 						super.wdgmsg(sender, msg, args);
 					}
@@ -620,6 +621,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 					public void cdestroy(Widget w) {
 						if (w == mkwdg) {
 							ui.destroy(this);
+							makewnd = null;
 						}
 					}
 				};
