@@ -203,5 +203,6 @@ public class Globals {
 		}
 		CFG.loadConfig();
 		WindowCFG.loadConfig();
+		Config.loadConfig();
 	}
 }
