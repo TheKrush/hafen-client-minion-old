@@ -1,3 +1,6 @@
 [submodule "combiner"]
 	path = hafen-map-combiner
 	url = https://github.com/TheKrush/hafen-map-combiner
+[submodule "LayerUtil"]
+	path = LayerUtil
+	url = https://github.com/TheKrush/LayerUtil.git
